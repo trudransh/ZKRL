@@ -1,0 +1,58 @@
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.30;
+
+// import { IBond } from "./IBond.sol";
+
+interface IUser {
+    /*
+    --------------------------
+    ----------STRUCTS----------
+    --------------------------
+    */
+    struct UserDetails {
+        address userAddress;
+        uint256 trustScore;
+        uint256 totalBonds;
+        uint256 totalAmount;
+        uint256 totalWithdrawnBonds;
+        uint256 totalBrokenBonds;
+        uint256 totalActiveBonds;
+        uint256 totalWithdrawnAmount;
+        uint256 totalBrokenAmount;
+        uint256 createdAt;
+    }
+
+    // /*
+    // --------------------------
+    // ----------ERRORS----------
+    // --------------------------
+    // */
+    // error InvalidRegistryAddress();
+    // error ResolverNotFound();
+
+    /*
+    --------------------------
+    ----------EVENTS----------
+    --------------------------
+    */
+
+    event UserCreated(address indexed user, uint256 timestamp);
+    event BondDeployed(address indexed asset, address user1, address user2, uint256 totalAmount, uint256 timestamp);
+
+    /*
+    --------------------------
+    ----------FUNCTIONS----------
+    --------------------------
+    */
+
+    function getUserDetails() external view returns(UserDetails memory);
+    function createBond(address partner, address userFactory, address bondFactory) external;
+    function getAllBonds() external view returns(address[] memory);
+    function getBondCount() external view returns(uint256);
+    function updateTrustScore(uint256 newTrustScore) external;
+    function addBond(address bondAddress) external;
+    function updateBreakDetails(uint256 amount) external;
+    function updateWithdrawnDetails(uint256 amount) external;
+    function updateStakeDetails(uint256 amount) external;
+}
