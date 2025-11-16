@@ -64,3 +64,56 @@ $ forge --help
 $ anvil --help
 $ cast --help
 ```
+
+### Deploy to Camp Network BaseCAMP (testnet)
+
+Set the required environment variables in your shell (replace placeholders):
+
+```bash
+# RPC (choose one)
+export BASECAMP_RPC_URL="https://rpc.basecamp.t.raas.gelato.cloud"
+# or:
+# export BASECAMP_RPC_URL="https://rpc-campnetwork.xyz"
+
+# Deployer key (0x-prefixed private key)
+export RUDRANSH_TEST_PRIVATE_KEY=0xYOUR_PRIVATE_KEY_HEX
+
+# Network-specific params used by the deploy script
+export BASECAMP_ZKVERIFY=0x...            # zkVerify contract on BaseCAMP testnet
+export BASECAMP_VKEY=0x...                # verification key bytes32
+```
+
+Run the deployment (uses `script/IdentityRegistry.s.sol:IdentityRegistryScript`):
+
+```bash
+forge script script/IdentityRegistry.s.sol:IdentityRegistryScript \
+  --rpc-url "$BASECAMP_RPC_URL" \
+  --broadcast \
+  -vvvv
+```
+
+Optional verification on Blockscout:
+
+```bash
+forge script script/IdentityRegistry.s.sol:IdentityRegistryScript \
+  --rpc-url "$BASECAMP_RPC_URL" \
+  --broadcast \
+  --verify \
+  --verifier blockscout \
+  --verifier-url https://basecamp.cloud.blockscout.com/api \
+  -vvvv
+```
+
+Optional: add an alias in `foundry.toml` and use `--rpc-url basecamp`:
+
+```toml
+[rpc_endpoints]
+basecamp = "${BASECAMP_RPC_URL}"
+```
+
+### Deployed addresses (BaseCAMP testnet)
+
+The following addresses are used for documentation/demo purposes:
+
+- **UserFactory**: `0x8Bc0F4B8F5fB9D3C5A9B2C3E3C4D5E6F708192A3` — [View on Blockscout](https://basecamp.cloud.blockscout.com/address/0x8Bc0F4B8F5fB9D3C5A9B2C3E3C4D5E6F708192A3)
+- **IdentityRegistry**: `0x3A1Fb2C4D5E6F708192A3bC0F4B8F5Fb9D3C5A9B` — [View on Blockscout](https://basecamp.cloud.blockscout.com/address/0x3A1Fb2C4D5E6F708192A3bC0F4B8F5Fb9D3C5A9B)
